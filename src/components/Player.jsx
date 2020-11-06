@@ -10,6 +10,7 @@ import styled from "styled-components";
 function readableDuration(seconds) {
   let sec = Math.floor(seconds);
   let min = Math.floor(sec / 60);
+  if (!sec) return "00:00";
   min = min >= 10 ? min : "0" + min;
   sec = Math.floor(sec % 60);
   sec = sec >= 10 ? sec : "0" + sec;
@@ -116,6 +117,13 @@ const Player = ({ currentSong, setCurrentSong, songs }) => {
       </div>
       <audio
         onTimeUpdate={timeUpdateHandler}
+        onCanPlay={(e) => {
+          const times = {
+            current: e.target.currentTime,
+            left: e.target.duration - e.target.currentTime,
+          };
+          setTimeInfo({ ...times });
+        }}
         ref={audioRef}
         src={currentSong.audio}
       ></audio>
