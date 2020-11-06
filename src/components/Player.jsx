@@ -7,6 +7,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
+function readableDuration(seconds) {
+  let sec = Math.floor(seconds);
+  let min = Math.floor(sec / 60);
+  min = min >= 10 ? min : "0" + min;
+  sec = Math.floor(sec % 60);
+  sec = sec >= 10 ? sec : "0" + sec;
+  return min + ":" + sec;
+}
+
 const PlayerStyle = styled.div`
   min-height: 20vh;
   display: flex;
@@ -43,7 +52,11 @@ const PlayerStyle = styled.div`
 const Player = ({ currentSong }) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  // Event Handler
+  const [timeInfo, setTimeInfo] = useState({
+    current: null,
+    left: null,
+  });
+  // Event Handlers
   const playSongHandler = () => {
     if (isPlaying) {
       audioRef.current.pause();
@@ -53,12 +66,21 @@ const Player = ({ currentSong }) => {
     setIsPlaying(!isPlaying);
   };
 
+  const timeUpdateHandler = (e) => {
+    const times = {
+      current: e.target.currentTime,
+      left: e.target.duration - e.target.currentTime,
+    };
+    setTimeInfo({ ...times });
+    console.log(timeInfo);
+  };
+
   return (
     <PlayerStyle>
       <div className="time-control">
-        <p>Start Time</p>
+        <p>{readableDuration(timeInfo.current)}</p>
         <input type="range" />
-        <p>End Time</p>
+        <p>{readableDuration(timeInfo.left)}</p>
       </div>
       <div className="play-control">
         <FontAwesomeIcon className="skip-back" size="2x" icon={faAngleLeft} />
@@ -74,7 +96,11 @@ const Player = ({ currentSong }) => {
           icon={faAngleRight}
         />
       </div>
-      <audio ref={audioRef} src={currentSong.audio}></audio>
+      <audio
+        onTimeUpdate={timeUpdateHandler}
+        ref={audioRef}
+        src={currentSong.audio}
+      ></audio>
     </PlayerStyle>
   );
 };
