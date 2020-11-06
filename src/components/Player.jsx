@@ -117,13 +117,7 @@ const Player = ({ currentSong, setCurrentSong, songs }) => {
       </div>
       <audio
         onTimeUpdate={timeUpdateHandler}
-        onCanPlay={(e) => {
-          const times = {
-            current: e.target.currentTime,
-            left: e.target.duration - e.target.currentTime,
-          };
-          setTimeInfo({ ...times });
-        }}
+        onCanPlay={timeUpdateHandler}
         ref={audioRef}
         src={currentSong.audio}
       ></audio>
