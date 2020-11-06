@@ -10,8 +10,8 @@ function App() {
   return (
     <div className="App">
       <GlobalStyle />
-      <Song song={currentSong} />
-      <Player />
+      <Song currentSong={currentSong} />
+      <Player currentSong={currentSong} />
     </div>
   );
 }

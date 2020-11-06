@@ -21,12 +21,12 @@ const SongStyle = styled.div`
   }
 `;
 
-const Song = ({ song }) => {
+const Song = ({ currentSong }) => {
   return (
     <SongStyle>
-      <img src={song.cover} alt={song.name} />
-      <h2>{song.name}</h2>
-      <h3>{song.artist}</h3>
+      <img src={currentSong.cover} alt={currentSong.name} />
+      <h2>{currentSong.name}</h2>
+      <h3>{currentSong.artist}</h3>
     </SongStyle>
   );
 };
