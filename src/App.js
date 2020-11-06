@@ -6,12 +6,16 @@ import data from "./data";
 
 function App() {
   const songs = data;
-  const [currentSong, setCurrentSong] = useState(songs[0]);
+  const [currentSong, setCurrentSong] = useState(songs[1]);
   return (
     <div className="App">
       <GlobalStyle />
       <Song currentSong={currentSong} />
-      <Player currentSong={currentSong} />
+      <Player
+        currentSong={currentSong}
+        setCurrentSong={setCurrentSong}
+        songs={songs}
+      />
     </div>
   );
 }
