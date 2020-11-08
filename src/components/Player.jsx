@@ -7,16 +7,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
-function readableDuration(seconds) {
-  let sec = Math.floor(seconds);
-  let min = Math.floor(sec / 60);
-  if (!sec) return "00:00";
-  min = min >= 10 ? min : "0" + min;
-  sec = Math.floor(sec % 60);
-  sec = sec >= 10 ? sec : "0" + sec;
-  return min + ":" + sec;
-}
-
 const PlayerStyle = styled.div`
   min-height: 20vh;
   display: flex;
@@ -30,6 +20,8 @@ const PlayerStyle = styled.div`
 
     input {
       width: 100%;
+      padding: 1rem 0;
+      cursor: pointer;
     }
 
     p {
@@ -53,9 +45,9 @@ const PlayerStyle = styled.div`
 const Player = ({ currentSong, setCurrentSong, songs }) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [timeInfo, setTimeInfo] = useState({
-    current: null,
-    left: null,
+  const [songInfo, setSongInfo] = useState({
+    currentTime: null,
+    duration: null,
   });
   // Event Handlers
   const playSongHandler = () => {
@@ -81,19 +73,38 @@ const Player = ({ currentSong, setCurrentSong, songs }) => {
   };
 
   const timeUpdateHandler = (e) => {
-    const times = {
-      current: e.target.currentTime,
-      left: e.target.duration - e.target.currentTime,
-    };
-    setTimeInfo({ ...times });
+    const current = e.target.currentTime;
+    const duration = e.target.duration;
+    setSongInfo({ ...songInfo, currentTime: current, duration });
+  };
+
+  const dragHandler = (e) => {
+    audioRef.current.currentTime = e.target.value;
+    setSongInfo({ ...songInfo, currentTime: e.target.value });
+  };
+
+  const readableDuration = (seconds) => {
+    let sec = Math.floor(seconds);
+    let min = Math.floor(sec / 60);
+    if (!sec) return "00:00";
+    min = min >= 10 ? min : "0" + min;
+    sec = Math.floor(sec % 60);
+    sec = sec >= 10 ? sec : "0" + sec;
+    return min + ":" + sec;
   };
 
   return (
     <PlayerStyle>
       <div className="time-control">
-        <p>{readableDuration(timeInfo.current)}</p>
-        <input type="range" />
-        <p>{readableDuration(timeInfo.left)}</p>
+        <p>{readableDuration(songInfo.current)}</p>
+        <input
+          min={0}
+          max={songInfo.duration}
+          value={songInfo.currentTime}
+          onChange={dragHandler}
+          type="range"
+        />
+        <p>{readableDuration(songInfo.duration)}</p>
       </div>
       <div className="play-control">
         <FontAwesomeIcon
@@ -117,7 +128,7 @@ const Player = ({ currentSong, setCurrentSong, songs }) => {
       </div>
       <audio
         onTimeUpdate={timeUpdateHandler}
-        onCanPlay={timeUpdateHandler}
+        onLoadedMetadata={timeUpdateHandler}
         ref={audioRef}
         src={currentSong.audio}
       ></audio>
