@@ -23,9 +23,12 @@ const LibrarySongStyle = styled.div`
   }
 `;
 
-const LibrarySong = ({ song }) => {
+const LibrarySong = ({ song, setCurrentSong }) => {
+  const songSelectHandler = async () => {
+    await setCurrentSong(song);
+  };
   return (
-    <LibrarySongStyle>
+    <LibrarySongStyle onClick={songSelectHandler}>
       <img src={song.cover} alt={song.name} />
       <div className="song-description">
         <h3>{song.name}</h3>

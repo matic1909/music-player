@@ -43,7 +43,7 @@ const PlayerStyle = styled.div`
   }
 `;
 
-const Player = ({ currentSong, setCurrentSong, songs }) => {
+const Player = ({ currentSong, setCurrentSong, songs, ref }) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [songInfo, setSongInfo] = useState({
@@ -60,14 +60,16 @@ const Player = ({ currentSong, setCurrentSong, songs }) => {
     setIsPlaying(!isPlaying);
   };
 
-  const nextSongHandler = () => {
-    setCurrentSong(songs[(songs.indexOf(currentSong) + 1) % songs.length]);
+  const nextSongHandler = async () => {
+    await setCurrentSong(
+      songs[(songs.indexOf(currentSong) + 1) % songs.length]
+    );
   };
 
-  const prevSongHandler = () => {
+  const prevSongHandler = async () => {
     const currentIndex = songs.indexOf(currentSong);
     if (currentIndex > 0) {
-      setCurrentSong(songs[currentIndex - 1]);
+      await setCurrentSong(songs[currentIndex - 1]);
     } else {
       console.log("This is the first song.");
     }
@@ -77,6 +79,9 @@ const Player = ({ currentSong, setCurrentSong, songs }) => {
     const current = e.target.currentTime;
     const duration = e.target.duration;
     setSongInfo({ ...songInfo, currentTime: current, duration });
+    if (e.target.pause && isPlaying) {
+      audioRef.current.play();
+    }
   };
 
   const dragHandler = (e) => {

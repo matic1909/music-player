@@ -33,13 +33,18 @@ const LibraryStyle = styled.div`
   }
 `;
 
-const Library = ({ songs }) => {
+const Library = ({ songs, setCurrentSong }) => {
   return (
     <LibraryStyle>
       <h2>Library</h2>
       <div className="library-songs">
         {songs.map((song) => (
-          <LibrarySong song={song} />
+          <LibrarySong
+            songs={songs}
+            song={song}
+            key={song.id}
+            setCurrentSong={setCurrentSong}
+          />
         ))}
       </div>
     </LibraryStyle>
