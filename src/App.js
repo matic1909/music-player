@@ -3,6 +3,7 @@ import Player from "./components/Player";
 import Song from "./components/Song";
 import GlobalStyle from "./styles/GlobalStyle";
 import data from "./data";
+import Library from "./components/Library";
 
 function App() {
   const songs = data;
@@ -16,6 +17,7 @@ function App() {
         setCurrentSong={setCurrentSong}
         songs={songs}
       />
+      <Library songs={songs} />
     </div>
   );
 }

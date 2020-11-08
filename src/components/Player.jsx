@@ -97,7 +97,7 @@ const Player = ({ currentSong, setCurrentSong, songs }) => {
   return (
     <PlayerStyle>
       <div className="time-control">
-        <p>{readableDuration(songInfo.current)}</p>
+        <p>{readableDuration(songInfo.currentTime)}</p>
         <input
           min={0}
           max={songInfo.duration}
