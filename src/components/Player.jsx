@@ -19,10 +19,13 @@ const PlayerStyle = styled.div`
   .time-control {
     width: 50%;
     display: flex;
+    align-items: center;
 
     input {
       width: 100%;
-      padding: 1rem 0;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: transparent;
       cursor: pointer;
     }
 
@@ -32,15 +35,49 @@ const PlayerStyle = styled.div`
   }
 
   .play-control {
-    width: 30%;
+    width: 40%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
   }
 
+  .track {
+    width: 100%;
+    height: 1rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+
+    .animate-track {
+      background: rgb(204, 204, 204);
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 1rem;
+      pointer-events: none;
+    }
+  }
+
   svg {
     cursor: pointer;
+  }
+
+  input[type="range"]:focus {
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+  }
+  input[type="range"]::-moz-range-thumb {
+    -moz-appearance: none;
+    height: 16px;
+    width: 16px;
+    border: none;
   }
 `;
 
@@ -56,6 +93,7 @@ const Player = ({
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
+    animationPercentage: 0,
   });
   // Event Handlers
   const playSongHandler = () => {
@@ -101,7 +139,17 @@ const Player = ({
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
     const duration = e.target.duration;
-    setSongInfo({ ...songInfo, currentTime: current, duration });
+    const roundedCurrent = Math.round(current);
+    const roundedDuration = Math.round(duration);
+    const animationPercentage = Math.round(
+      (roundedCurrent * 100) / roundedDuration
+    );
+    setSongInfo({
+      ...songInfo,
+      currentTime: current,
+      duration,
+      animationPercentage,
+    });
     if (e.target.pause && isPlaying) {
       audioRef.current.play();
     }
@@ -122,17 +170,30 @@ const Player = ({
     return min + ":" + sec;
   };
 
+  const trackAnimation = {
+    transform: `translateX(${songInfo.animationPercentage}%)`,
+  };
+
   return (
     <PlayerStyle>
       <div className="time-control">
         <p>{readableDuration(songInfo.currentTime)}</p>
-        <input
-          min={0}
-          max={songInfo.duration || 0}
-          value={songInfo.currentTime}
-          onChange={dragHandler}
-          type="range"
-        />
+        <div
+          className="track"
+          style={{
+            background: `linear-gradient(to right, ${currentSong.color[0]}, ${currentSong.color[1]})`,
+          }}
+        >
+          <input
+            min={0}
+            max={songInfo.duration || 0}
+            value={songInfo.currentTime}
+            onChange={dragHandler}
+            type="range"
+          />
+          <div className="animate-track" style={trackAnimation}></div>
+        </div>
+
         <p>{readableDuration(songInfo.duration)}</p>
       </div>
       <div className="play-control">

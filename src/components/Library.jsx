@@ -46,7 +46,6 @@ const LibraryStyle = styled.div`
 `;
 
 const Library = ({ libraryHidden, songs, songSelectHandler }) => {
-  console.log(libraryHidden);
   return (
     <LibraryStyle className={`${!libraryHidden ? "active-library" : ""}`}>
       <h2>Library</h2>
