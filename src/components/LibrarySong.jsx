@@ -23,12 +23,12 @@ const LibrarySongStyle = styled.div`
   }
 `;
 
-const LibrarySong = ({ song, setCurrentSong }) => {
-  const songSelectHandler = async () => {
-    await setCurrentSong(song);
-  };
+const LibrarySong = ({ song, songSelectHandler }) => {
   return (
-    <LibrarySongStyle onClick={songSelectHandler}>
+    <LibrarySongStyle
+      onClick={() => songSelectHandler(song)}
+      className={`${song.active ? "selected" : ""}`}
+    >
       <img src={song.cover} alt={song.name} />
       <div className="song-description">
         <h3>{song.name}</h3>

@@ -7,6 +7,7 @@ import {
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
+import Library from "./Library";
 
 const PlayerStyle = styled.div`
   min-height: 20vh;
@@ -43,7 +44,7 @@ const PlayerStyle = styled.div`
   }
 `;
 
-const Player = ({ currentSong, setCurrentSong, songs, ref }) => {
+const Player = ({ currentSong, setCurrentSong, setSongs, songs }) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [songInfo, setSongInfo] = useState({
@@ -58,6 +59,25 @@ const Player = ({ currentSong, setCurrentSong, songs, ref }) => {
       audioRef.current.play();
     }
     setIsPlaying(!isPlaying);
+  };
+
+  const songSelectHandler = async (selectedSong) => {
+    await setCurrentSong(selectedSong);
+    // add active state
+    const newSongs = songs.map((s) => {
+      if (s === selectedSong) {
+        return {
+          ...s,
+          active: true,
+        };
+      } else {
+        return {
+          ...s,
+          active: false,
+        };
+      }
+    });
+    setSongs(newSongs);
   };
 
   const nextSongHandler = async () => {
@@ -138,6 +158,13 @@ const Player = ({ currentSong, setCurrentSong, songs, ref }) => {
         ref={audioRef}
         src={currentSong.audio}
       ></audio>
+      <Library
+        songs={songs}
+        currentSong={currentSong}
+        setCurrentSong={setCurrentSong}
+        setSongs={setSongs}
+        songSelectHandler={songSelectHandler}
+      />
     </PlayerStyle>
   );
 };

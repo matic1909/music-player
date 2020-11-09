@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import LibrarySong from "./LibrarySongs";
+import LibrarySong from "./LibrarySong";
 
 const LibraryStyle = styled.div`
   position: fixed;
@@ -31,19 +31,22 @@ const LibraryStyle = styled.div`
     border-radius: 20px;
     border: transparent;
   }
+
+  .selected {
+    background: rgb(165, 181, 228);
+  }
 `;
 
-const Library = ({ songs, setCurrentSong }) => {
+const Library = ({ songs, songSelectHandler }) => {
   return (
     <LibraryStyle>
       <h2>Library</h2>
       <div className="library-songs">
         {songs.map((song) => (
           <LibrarySong
-            songs={songs}
             song={song}
             key={song.id}
-            setCurrentSong={setCurrentSong}
+            songSelectHandler={songSelectHandler}
           />
         ))}
       </div>
