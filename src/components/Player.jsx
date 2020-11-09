@@ -44,7 +44,13 @@ const PlayerStyle = styled.div`
   }
 `;
 
-const Player = ({ currentSong, setCurrentSong, setSongs, songs }) => {
+const Player = ({
+  libraryHidden,
+  currentSong,
+  setCurrentSong,
+  setSongs,
+  songs,
+}) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [songInfo, setSongInfo] = useState({
@@ -122,7 +128,7 @@ const Player = ({ currentSong, setCurrentSong, setSongs, songs }) => {
         <p>{readableDuration(songInfo.currentTime)}</p>
         <input
           min={0}
-          max={songInfo.duration}
+          max={songInfo.duration || 0}
           value={songInfo.currentTime}
           onChange={dragHandler}
           type="range"
@@ -156,6 +162,7 @@ const Player = ({ currentSong, setCurrentSong, setSongs, songs }) => {
         src={currentSong.audio}
       ></audio>
       <Library
+        libraryHidden={libraryHidden}
         songs={songs}
         currentSong={currentSong}
         setCurrentSong={setCurrentSong}
