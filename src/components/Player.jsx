@@ -74,7 +74,6 @@ const PlayerStyle = styled.div`
     width: 16px;
   }
   input[type="range"]::-moz-range-thumb {
-    -moz-appearance: none;
     height: 16px;
     width: 16px;
     border: none;
@@ -130,7 +129,7 @@ const Player = ({
     songSelectHandler(songs[nextIndex]);
   };
 
-  const prevSongHandler = async () => {
+  const prevSongHandler = () => {
     const currentIndex = songs.findIndex((s) => s.id === currentSong.id);
     const prevIndex = currentIndex === 0 ? songs.length - 1 : currentIndex - 1;
     songSelectHandler(songs[prevIndex]);
@@ -219,6 +218,7 @@ const Player = ({
       <audio
         onTimeUpdate={timeUpdateHandler}
         onLoadedMetadata={timeUpdateHandler}
+        onEnded={nextSongHandler}
         ref={audioRef}
         src={currentSong.audio}
       ></audio>
