@@ -80,19 +80,16 @@ const Player = ({ currentSong, setCurrentSong, setSongs, songs }) => {
     setSongs(newSongs);
   };
 
-  const nextSongHandler = async () => {
-    await setCurrentSong(
-      songs[(songs.indexOf(currentSong) + 1) % songs.length]
-    );
+  const nextSongHandler = () => {
+    const currentIndex = songs.findIndex((s) => s.id === currentSong.id);
+    const nextIndex = (currentIndex + 1) % songs.length;
+    songSelectHandler(songs[nextIndex]);
   };
 
   const prevSongHandler = async () => {
-    const currentIndex = songs.indexOf(currentSong);
-    if (currentIndex > 0) {
-      await setCurrentSong(songs[currentIndex - 1]);
-    } else {
-      console.log("This is the first song.");
-    }
+    const currentIndex = songs.findIndex((s) => s.id === currentSong.id);
+    const prevIndex = currentIndex === 0 ? songs.length - 1 : currentIndex - 1;
+    songSelectHandler(songs[prevIndex]);
   };
 
   const timeUpdateHandler = (e) => {
