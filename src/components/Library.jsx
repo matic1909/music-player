@@ -6,6 +6,7 @@ const LibraryStyle = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  background: white;
   width: 20rem;
   height: 100%;
   box-shadow: 2px 2px 50px rgb(204, 204, 204);
@@ -42,6 +43,10 @@ const LibraryStyle = styled.div`
   &.active-library {
     transform: translateX(0);
     opacity: 100%;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
   }
 `;
 

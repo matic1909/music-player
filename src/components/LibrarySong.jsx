@@ -6,11 +6,12 @@ const LibrarySongStyle = styled.div`
   align-items: center;
   padding: 1rem 2rem 1rem 2rem;
   cursor: pointer;
+  transition: background 0.5s ease;
   img {
     width: 30%;
   }
   &:hover {
-    background-color: rgb(222, 222, 240);
+    background: rgb(222, 222, 240);
   }
   .song-description {
     padding-left: 1rem;

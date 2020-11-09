@@ -19,6 +19,14 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     color: rgb(100,100,100);
   }
+
+  .App {
+    transition: all 0.5s ease;
+  }
+
+  .library-active {
+    margin-left: 20%;
+  }
 `;
 
 export default GlobalStyle;

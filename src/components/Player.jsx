@@ -78,6 +78,15 @@ const PlayerStyle = styled.div`
     width: 16px;
     border: none;
   }
+
+  @media screen and (max-width: 768px) {
+    .time-control {
+      width: 90%;
+    }
+    .play-control {
+      width: 65%;
+    }
+  }
 `;
 
 const Player = ({

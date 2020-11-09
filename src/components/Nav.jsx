@@ -20,6 +20,12 @@ const NavStyle = styled.nav`
       color: white;
     }
   }
+
+  @media screen and (max-width: 768px) {
+    button {
+      z-index: 10;
+    }
+  }
 `;
 
 const Nav = ({ libraryHidden, setLibraryHidden }) => {

@@ -10,7 +10,7 @@ function App() {
   const [currentSong, setCurrentSong] = useState(songs[0]);
   const [libraryHidden, setLibraryHidden] = useState(true);
   return (
-    <div className="App">
+    <div className={`App ${libraryHidden ? "" : "library-active"}`}>
       <GlobalStyle />
       <Nav libraryHidden={libraryHidden} setLibraryHidden={setLibraryHidden} />
       <Song currentSong={currentSong} />
